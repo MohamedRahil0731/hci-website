@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="EcoSphere - A sustainable e-commerce experience designed with HCI principles. Accessible via voice, keyboard, touch, and mouse.">
+    <title>EcoSphere | Sustainable Living</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Google Fonts: Outfit -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- Gesture Recognition Libs -->
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/fingerpose@0.1.3/dist/fingerpose.min.js"></script>
+</head>
+
+<body id="body">
+    <!-- Animated Decoration -->
+    <div class="bg-blobs">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+    </div>
+
+    <!-- Gesture Recognition Panel -->
+    <div id="gesture-panel" class="gesture-panel">
+        <div class="gesture-status">
+            <video id="webcam-preview" autoplay playsinline></video>
+            <i class="fas fa-hand-paper" id="gesture-icon"></i>
+            <span id="gesture-text">Gesture Control Handlers</span>
+            <div id="gesture-indicator" class="gesture-pulse"></div>
+        </div>
+        <video id="webcam" autoplay playsinline style="display: none;"></video>
+        <canvas id="gesture-canvas" style="display: none;"></canvas>
+    </div>
+
+    <!-- Voice Notification Panel -->
+    <div id="voice-indicator" class="voice-indicator">
+        <i class="fas fa-microphone"></i>
+        <span id="voice-status">Listening...</span>
+    </div>
+
+    <!-- Navigation -->
+    <header>
+        <nav class="container" role="navigation" aria-label="Main Navigation">
+            <div class="logo">
+                <a href="#home" id="logo-link">Eco<span>Sphere</span></a>
+            </div>
+            <ul class="nav-links">
+                <li><a href="#home" class="nav-item" id="nav-home">Home</a></li>
+                <li><a href="#shop" class="nav-item" id="nav-shop">Shop</a></li>
+                <li><a href="#contact" class="nav-item" id="nav-contact">Contact</a></li>
+                <li><button id="cart-btn" class="icon-btn" aria-label="View Shopping Cart">
+                        <i class="fas fa-shopping-cart"></i>
+                        <span id="cart-count">0</span>
+                    </button></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <!-- Home Section -->
+        <section id="home" class="hero">
+            <div class="hero-content container">
+                <div class="hero-text">
+                    <span class="section-tag">Established 2026</span>
+                    <h1 id="hero-title">Better for you, <br><span>Better Planet.</span></h1>
+                    <p>Discover the world's most innovative eco-friendly products. Consciously designed for a
+                        high-performance sustainable lifestyle.</p>
+                    <div class="hero-btns">
+                        <a href="#shop" class="btn btn-primary" id="explore-btn">Shop Collection</a>
+                        <button class="btn btn-secondary" id="voice-help-btn">
+                            <i class="fas fa-microphone"></i> Voice Commands
+                        </button>
+                        <button class="btn btn-secondary" id="gesture-start-btn">
+                            <i class="fas fa-hand-paper"></i> Gesture Control
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Shop Section -->
+        <section id="shop" class="products container">
+            <span class="section-tag">Curated Selection</span>
+            <h2 class="section-title">New Arrivals</h2>
+            <div class="product-grid" id="product-grid">
+                <!-- Products will be injected by JS -->
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact" class="contact container">
+            <div class="contact-card">
+                <div class="contact-info">
+                    <span class="section-tag" style="color: var(--primary-light);">Stay Connected</span>
+                    <h2>Let's build a greener future.</h2>
+                    <p style="color: rgba(255,255,255,0.7); font-size: 1.1rem;">Subscribe to our newsletter for
+                        exclusive eco-tips, new product reveals, and sustainable lifestyle guides.</p>
+                </div>
+                <form id="contact-form" novalidate>
+                    <div class="form-group">
+                        <label for="name">Your Name</label>
+                        <input type="text" id="name" name="name" placeholder="Enter your name" required>
+                        <span class="error-msg" id="name-error"></span>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email Address</label>
+                        <input type="email" id="email" name="email" placeholder="hello@example.com" required>
+                        <span class="error-msg" id="email-error"></span>
+                    </div>
+                    <button type="submit" class="btn btn-primary"
+                        style="background: var(--primary); width: 100%;">Subscribe Now</button>
+                </form>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 EcoSphere. Built with HCI Principles.</p>
+            <div class="shortcuts-info">
+                <span>Shortcuts: <strong>Alt + H</strong> (Home), <strong>Alt + S</strong> (Shop), <strong>Alt +
+                        C</strong> (Cart)</span>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Modals & Feedback -->
+    <div id="cart-modal" class="modal" aria-hidden="true">
+        <div class="modal-content">
+            <button class="close-modal" id="close-cart" aria-label="Close Cart">&times;</button>
+            <h2>Your Shopping Cart</h2>
+            <div id="cart-items">
+                <!-- Cart items here -->
+                <p class="empty-msg">Your cart is empty.</p>
+            </div>
+            <div class="cart-total">
+                <span>Total: $<span id="total-price">0.00</span></span>
+            </div>
+            <button class="btn btn-primary" id="checkout-btn">Checkout</button>
+        </div>
+    </div>
+
+    <!-- Feedback Toasts -->
+    <div id="toast-container" class="toast-container"></div>
+
+    <script src="main.js"></script>
+</body>
+
+</html>
